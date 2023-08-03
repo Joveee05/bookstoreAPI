@@ -26,7 +26,7 @@ model Books {
   title     String   @db.VarChar(255)
   author    String   @db.VarChar(255)
   cover_image String @default("https://images-na.ssl-images-amazon.com/images/I/51Ga5GuElyL._AC_SX184_.jpg")
-  tag        String[] 
+  tag        String  @db.VarChar(255)
   orders    Orders[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
