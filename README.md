@@ -1,6 +1,6 @@
-## BookStoreAPI-Backend-REST-API-NestJS-Prisma
+## BookStore-Backend-REST-API-NestJS-Prisma
 
-A simple backend REST API for a BookStoreAPI built using NestJS, Prisma, RabbitMQ, Docker, PostgreSQL and Swagger.
+A simple backend REST API for a BookStore built using NestJS, Prisma, RabbitMQ, Docker, PostgreSQL and Swagger.
 
 ### Installation
 
