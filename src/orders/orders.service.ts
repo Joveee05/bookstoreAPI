@@ -28,4 +28,8 @@ export class OrdersService {
   remove(orderId: number) {
     return this.prisma.orders.delete({ where: { orderId } });
   }
+
+  orderHistory(userId: number) {
+    return this.prisma.orders.findMany({ where: { userId } });
+  }
 }

@@ -17,11 +17,15 @@ import { ApiOkResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserDto, User } from './dto/create-user.dto';
 import { ExistingUserDTO } from './dto/existing-user.dto';
+import { LogsService } from 'src/logs/logs.service';
 
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly logService: LogsService,
+  ) {}
 
   async validateUser(email: string): Promise<User | null> {
     const user = await this.usersService.findByEmail(email);
@@ -38,7 +42,9 @@ export class UsersController {
     type: UserEntity,
     isArray: true,
   })
-  create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body() createUserDto: CreateUserDto) {
+    const message = 'This is a log message. POST /api/users';
+    await this.logService.log(message);
     return this.usersService.create(createUserDto);
   }
 
@@ -48,7 +54,9 @@ export class UsersController {
     type: UserEntity,
     isArray: true,
   })
-  findAll() {
+  async findAll() {
+    const message = 'This is a log message. GET /api/users';
+    await this.logService.log(message);
     return this.usersService.findAll();
   }
 
@@ -58,7 +66,9 @@ export class UsersController {
     type: UserEntity,
     isArray: true,
   })
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const message = 'This is a log message. GET /api/users/:id';
+    await this.logService.log(message);
     return this.usersService.findOne(id);
   }
 
@@ -68,10 +78,12 @@ export class UsersController {
     type: UserEntity,
     isArray: true,
   })
-  update(
+  async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
+    const message = 'This is a log message. POST /api/users/:id';
+    await this.logService.log(message);
     return this.usersService.update(id, updateUserDto);
   }
 
@@ -79,7 +91,9 @@ export class UsersController {
   @ApiOkResponse({
     description: 'User deleted',
   })
-  remove(@Param('id', ParseIntPipe) id: number) {
+  async remove(@Param('id', ParseIntPipe) id: number) {
+    const message = 'This is a log message. DELETE /api/users/:id';
+    await this.logService.log(message);
     return this.usersService.remove(id);
   }
 
@@ -88,6 +102,9 @@ export class UsersController {
     @Body()
     existingUser: ExistingUserDTO,
   ): Promise<{ status: string; message: string; data: any } | null> {
+    const message = 'This is a log message. POST /api/users/login';
+    await this.logService.log(message);
+
     const { email } = existingUser;
     const user = await this.validateUser(email);
 
